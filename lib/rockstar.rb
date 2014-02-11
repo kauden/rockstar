@@ -23,6 +23,7 @@ require 'rockstar/user'
 require 'rockstar/tag'
 require 'rockstar/track'
 require 'rockstar/venue'
+require 'rockstar/search'
 
 require 'rockstar/auth'
 require 'rockstar/session'
