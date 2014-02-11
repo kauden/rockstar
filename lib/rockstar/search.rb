@@ -16,7 +16,7 @@
 
 module Rockstar
   class Search < Base
-    attr_accessor :name, :mbid, :albummatches, :albummatchesa, :albummatchesb
+    attr_accessor :name, :mbid, :albummatches
 
     class << self
       def new_from_xml(xml, doc=nil)
@@ -45,9 +45,12 @@ module Rockstar
 
       return self if xml.nil?
 
-      self.albummatches = (xml/'album/name').collect(&:inner_html)
-      self.albummatchesa = (xml/'album').inspect
-      #self.albummatchesb = (xml/'album').collect{ |s| {name: s.name, artist: s.artist, id: s.id} }
+      self.albummatches = (xml/'albummatches/album').collect do |album|
+        t = (album/'id').inner_html
+        t.name = (album/'name').inner_html
+        t.artist = (album/'artist').inner_html
+        t
+      end
 
       self
     end
