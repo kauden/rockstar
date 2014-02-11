@@ -94,9 +94,9 @@ module Rockstar
       list_tracks = []
       track_number = 1
       (xml/'tracks/track').collect do |track|
-        name = (track/'name').present? ? (track/'name').inner_html : nil
-        duration = (track/'duration').present? ? (track/'duration').inner_html.to_i : nil
-        url = (track/'url').present? ? (track/'url').inner_html : nil
+        name = (track).at(:name).present? ? (track).at(:name).inner_html : nil
+        duration = (track).at(:duration).present? ? (track).at(:duration).inner_html.to_i : nil
+        url = (track).at(:url).present? ? (track).at(:url).inner_html : nil
         list_tracks << {
           track_number: track_number, 
           name: name, 
@@ -110,7 +110,7 @@ module Rockstar
 
       list_tags = []
       (xml/'toptags/tag').collect do |tag|
-        name = (tag/'name').present? ? (tag/'name').inner_html : nil
+        name = (tag).at(:name).present? ? (tag).at(:name).inner_html : nil
         list_tags << name
       end
 

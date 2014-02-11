@@ -63,10 +63,10 @@ module Rockstar
         image_medium = images['medium'].present? ? images['medium'] : nil
         image_large = images['large'].present? ? images['large'] : nil
         image_extralarge = images['extralarge'].present? ? images['extralarge'] : nil
-        id = (album/'id').present? ? (album/'id').inner_html : nil
-        name = (album/'name').present? ? (album/'name').inner_html : nil
-        artist = (album/'artist').present? ? (album/'artist').inner_html : nil
-        url = (album/'url').present? ? (album/'url').inner_html : nil
+        id = (album).at(:id).present? ? (album).at(:id).inner_html : nil
+        name = (album).at(:name).present? ? (album).at(:name).inner_html : nil
+        artist = (album).at(:artist).present? ? (album).at(:artist).inner_html : nil
+        url = (album).at(:url).present? ? (album).at(:url).inner_html : nil
         list_album << {
           id: id, 
           name: name, 
