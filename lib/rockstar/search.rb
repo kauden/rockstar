@@ -16,12 +16,7 @@
 
 module Rockstar
   class Search < Base
-    attr_accessor :name, :mbid, :listenercount, :playcount, :rank, :url, :thumbnail
-    attr_accessor :summary, :content, :images, :count, :streamable, :albummatches
-    attr_accessor :chartposition
-
-    # used for similar artists
-    attr_accessor :match
+    attr_accessor :name, :mbid, :albummatches, :albummatchesa, :albummatchesb
 
     class << self
       def new_from_xml(xml, doc=nil)
@@ -51,7 +46,7 @@ module Rockstar
       return self if xml.nil?
 
       self.albummatches = (xml/'album/name').collect(&:inner_html)
-      self.albummatchesa = (xml/'album')
+      self.albummatchesa = (xml/'album').inspect
       self.albummatchesb = (xml/'album').collect{ |s| {name: s.name, artist: s.artist, id: s.id} }
 
       self
