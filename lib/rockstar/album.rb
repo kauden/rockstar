@@ -96,7 +96,7 @@ module Rockstar
       (xml/'tracks/track').collect do |track|
         name = (track).at(:name).present? ? (track).at(:name).inner_html : nil
         duration = (track).at(:duration).present? ? (track).at(:duration).inner_html.to_i : nil
-        url = (track).at(:url).present? ? (track).at(:url).inner_html : nil
+        url = (track).at(:url).present? ? Base.fix_url((track).at(:url).inner_html) : nil
         list_tracks << {
           track_number: track_number, 
           name: name, 
