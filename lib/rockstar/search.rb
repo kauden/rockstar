@@ -28,10 +28,6 @@ module Rockstar
         # occasionally name can be found in root of artist element (<artist name="">) rather than as an element (<name>)
         name             = (xml).at(:name).inner_html           if (xml).at(:name)
         name             = xml['name']                          if name.nil? && xml['name']
-
-        artist = Artist.new(name)
-        artist.load_info(xml)
-        artist
       end
     end
 
@@ -55,6 +51,8 @@ module Rockstar
       return self if xml.nil?
 
       self.albummatches = (xml/'album/name').collect(&:inner_html)
+      self.albummatchesa = (xml/'album')
+      self.albummatchesb = (xml/'album').collect{ |s| {name: s.name, artist: s.artist, id: s.id} }
 
       self
     end
