@@ -47,7 +47,7 @@ module Rockstar
 
       self.albummatches = (xml/'album/name').collect(&:inner_html)
       self.albummatchesa = (xml/'album').inspect
-      self.albummatchesb = (xml/'album').collect{ |s| {name: s.name, artist: s.artist, id: s.id} }
+      #self.albummatchesb = (xml/'album').collect{ |s| {name: s.name, artist: s.artist, id: s.id} }
 
       self
     end
