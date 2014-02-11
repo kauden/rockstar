@@ -33,7 +33,8 @@ module Rockstar
       @page = o[:page] unless o[:page].blank?
       @limit = o[:limit] unless o[:limit].blank?
 
-      load_info
+      options = {:include_info => false}.merge(o)
+      load_info if options[:include_info]
     end
 
     def load_info(xml=nil)
@@ -63,11 +64,15 @@ module Rockstar
         image_medium = images['medium'].present? ? images['medium'] : nil
         image_large = images['large'].present? ? images['large'] : nil
         image_extralarge = images['extralarge'].present? ? images['extralarge'] : nil
+        id = (album/'id').present? ? (album/'id').inner_html : nil
+        name = (album/'name').present? ? (album/'name').inner_html : nil
+        artist = (album/'artist').present? ? (album/'artist').inner_html : nil
+        url = (album/'url').present? ? (album/'url').inner_html : nil
         list_album << {
-          id: (album/'id').inner_html, 
-          name: (album/'name').inner_html, 
-          artist: (album/'artist').inner_html,
-          url: (album/'url').inner_html,
+          id: id, 
+          name: name, 
+          artist: artist,
+          url: url,
           image_small: image_small,
           image_medium: image_medium,
           image_large: image_large,
