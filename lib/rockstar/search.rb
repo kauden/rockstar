@@ -54,7 +54,6 @@ module Rockstar
       self.itemsPerPage = (xml).at('opensearch:itemsPerPage').inner_html.to_i if (xml).at('opensearch:itemsPerPage')
 
       list_album = []
-
       (xml/'albummatches/album').collect do |album|
         self.images = {}
         (album/'image').each do |image|
