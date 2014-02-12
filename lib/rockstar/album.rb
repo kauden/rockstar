@@ -17,7 +17,7 @@
 module Rockstar
   class Album < Base
     attr_accessor :artist, :artist_mbid, :name, :mbid, :playcount, :rank, :url, :release_date, :id, :image_extralarge
-    attr_accessor :image_large, :image_medium, :image_small, :summary, :content, :images, :tracks, :tags
+    attr_accessor :image_large, :image_medium, :image_small, :summary, :content, :images, :tracks, :tags, :image_mega
 
     # needed on top albums for tag
     attr_accessor :count, :streamable
@@ -86,6 +86,7 @@ module Rockstar
       self.image_medium     = images['medium']
       self.image_small      = images['small']
       self.image_extralarge = images['extralarge']
+      self.image_mega       = images['mega']
 
       # needed on top albums for tag
       self.count          = xml['count'] if xml['count']
@@ -121,7 +122,7 @@ module Rockstar
 
     def image(which=:small)
       which = which.to_s
-      raise ArgumentError unless ['small', 'medium', 'large', 'extralarge'].include?(which)
+      raise ArgumentError unless ['small', 'medium', 'large', 'extralarge', 'mega'].include?(which)
       if (self.images.nil?)
         load_info
       end
