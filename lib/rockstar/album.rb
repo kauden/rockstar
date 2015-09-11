@@ -44,11 +44,11 @@ module Rockstar
       end
     end
 
-    def initialize(artist, name, o={})
-      raise ArgumentError, "Artist is required" if artist.blank?
-      raise ArgumentError, "Name is required" if name.blank?
-      @artist = artist
-      @name   = name
+    def initialize(mbid, o={})
+      #raise ArgumentError, "Artist is required" if artist.blank?
+      raise ArgumentError, "mbid is required" if mbid.blank?
+      @mbid = mbid
+      #@name   = name
 
       options = {include_info: false}.merge(o)
       load_info if options[:include_info]
@@ -56,7 +56,7 @@ module Rockstar
 
     def load_info(xml=nil)
       unless xml
-        doc = self.class.fetch_and_parse("album.getInfo", {artist: @artist, album:@name})
+        doc = self.class.fetch_and_parse("album.getInfo", {mbid: @mbid})
         xml = (doc / :album).first
       end
 
