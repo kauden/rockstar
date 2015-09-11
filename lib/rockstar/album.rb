@@ -48,10 +48,12 @@ module Rockstar
       #raise ArgumentError, "Artist is required" if artist.blank?
       raise ArgumentError, "mbid is required" if mbid.blank?
       @mbid = mbid
-      @artist = options[:artist].present? ? options[:artist] : nil
-      @name = options[:name].present? ? options[:name] : nil
 
       options = {include_info: false}.merge(o)
+
+      @artist = options[:artist].present? ? options[:artist] : nil
+      @name = options[:name].present? ? options[:name] : nil
+      
       load_info if options[:include_info]
     end
 
