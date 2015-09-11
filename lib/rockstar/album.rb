@@ -16,8 +16,8 @@
 #
 module Rockstar
   class Album < Base
-    attr_accessor :artist, :artist_mbid, :name, :mbid, :playcount, :rank, :url, :release_date
-    attr_accessor :image_large, :image_medium, :image_small, :summary, :content, :images
+    attr_accessor :artist, :artist_mbid, :name, :mbid, :playcount, :rank, :url, :release_date, :id, :image_extralarge
+    attr_accessor :image_large, :image_medium, :image_small, :summary, :content, :images, :tracks, :tags, :image_mega
 
     # needed on top albums for tag
     attr_accessor :count, :streamable
@@ -81,20 +81,47 @@ module Rockstar
         self.images[image['size']] = image.inner_html if self.images[image['size']].nil?
       }
 
-      self.image_large    = images['large']
-      self.image_medium   = images['medium']
-      self.image_small    = images['small']
+      self.image_large      = images['large']
+      self.image_medium     = images['medium']
+      self.image_small      = images['small']
+      self.image_extralarge = images['extralarge']
+      self.image_mega       = images['mega']
 
       # needed on top albums for tag
       self.count          = xml['count'] if xml['count']
       self.streamable     = xml['streamable'] if xml['streamable']
+
+      list_tracks = []
+      track_number = 1
+      (xml/'tracks/track').collect do |track|
+        name = (track).at(:name).present? ? (track).at(:name).inner_html : nil
+        duration = (track).at(:duration).present? ? (track).at(:duration).inner_html.to_i : nil
+        url = (track).at(:url).present? ? Base.fix_url((track).at(:url).inner_html) : nil
+        list_tracks << {
+          track_number: track_number, 
+          name: name, 
+          duration: duration,
+          url: url
+        }
+        track_number = track_number + 1
+      end
+
+      self.tracks = list_tracks
+
+      list_tags = []
+      (xml/'toptags/tag').collect do |tag|
+        name = (tag).at(:name).present? ? (tag).at(:name).inner_html : nil
+        list_tags << name
+      end
+
+      self.tags = list_tags
 
       self
     end
 
     def image(which=:small)
       which = which.to_s
-      raise ArgumentError unless ['small', 'medium', 'large', 'extralarge'].include?(which)
+      raise ArgumentError unless ['small', 'medium', 'large', 'extralarge', 'mega'].include?(which)
       if (self.images.nil?)
         load_info
       end
