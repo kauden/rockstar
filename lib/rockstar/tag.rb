@@ -86,15 +86,15 @@ module Rockstar
 
 
     def top_artists(force=false)
-      get_instance("tag.getTopArtists", :top_artists, :artist, {:tag => @name}, force)
+      get_instance("tag.getTopArtists", :top_artists, :artist, {tag: @name}, force)
     end
 
     def top_albums(force=false)
-      get_instance("tag.getTopAlbums", :top_albums, :album, {:tag => @name}, force)
+      get_instance("tag.getTopAlbums", :top_albums, :album, {tag: @name}, force)
     end
 
     def top_tracks(force=false)
-      get_instance("tag.getTopTracks", :top_tracks, :track, {:tag => @name}, force)
+      get_instance("tag.getTopTracks", :top_tracks, :track, {tag: @name}, force)
     end
   end
 end

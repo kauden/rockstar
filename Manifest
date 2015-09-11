@@ -21,7 +21,6 @@ lib/rockstar/rest.rb
 lib/rockstar/scrobble.rb
 lib/rockstar/session.rb
 lib/rockstar/simpleauth.rb
-lib/rockstar/search.rb
 lib/rockstar/tag.rb
 lib/rockstar/tokenauth.rb
 lib/rockstar/track.rb

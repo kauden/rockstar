@@ -35,7 +35,7 @@ class TestAlbum < Test::Unit::TestCase
   end
   
   test "should be able to find an ablum and load the album's info" do
-    album = Rockstar::Album.find('Carrie Underwood', 'Some Hearts', :include_info => true)
+    album = Rockstar::Album.find('Carrie Underwood', 'Some Hearts', include_info: true)
     assert_equal('Carrie Underwood', album.artist)
     assert_equal('Some Hearts', album.name)
     assert_equal('http://www.last.fm/music/Carrie+Underwood/Some+Hearts', album.url)
@@ -44,7 +44,7 @@ class TestAlbum < Test::Unit::TestCase
   end
   
   test "should be able to request detailed album info on initialize" do
-    album = Rockstar::Album.new('Carrie Underwood', 'Some Hearts', :include_info => true)
+    album = Rockstar::Album.new('Carrie Underwood', 'Some Hearts', include_info: true)
     assert_equal('Carrie Underwood', album.artist)
     assert_equal('Some Hearts', album.name)
     assert_equal('http://www.last.fm/music/Carrie+Underwood/Some+Hearts', album.url)

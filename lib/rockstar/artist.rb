@@ -60,7 +60,7 @@ module Rockstar
   class Artist < Base
     attr_accessor :name, :mbid, :listenercount, :playcount, :rank, :url, :thumbnail
     attr_accessor :summary, :content, :images, :count, :streamable, :tags
-    attr_accessor :chartposition
+    attr_accessor :chartposition, :autocorrect
 
     # used for similar artists
     attr_accessor :match
@@ -80,15 +80,17 @@ module Rockstar
     def initialize(name, o={})
       raise ArgumentError, "Name or mbid is required" if name.blank? && o[:mbid].blank?
       @name = name unless name.blank?
-      @mbid = o[:mbid] unless o[:mbid].blank?
+      @mbid = o.fetch :mbid, nil
+      @autocorrect = o.fetch :autocorrect, nil
 
-      options = {:include_info => false}.merge(o)
+      options = {include_info: false}.merge(o)
       load_info if options[:include_info]
     end
 
     def load_info(xml=nil)
       unless xml
-        params = @mbid.blank? ? {:artist => @name} : {:mbid => @mbid}
+        params = @mbid.blank? ? {artist: @name} : {mbid: @mbid}
+        params.merge!(autocorrect: 1) if @autocorrect
 
         doc = self.class.fetch_and_parse("artist.getInfo", params)
         xml = (doc / :artist).first
@@ -129,27 +131,27 @@ module Rockstar
     end
 
     def events(force=false)
-      get_instance("artist.getEvents", :events, :event, {:artist => @name}, force)
+      get_instance("artist.getEvents", :events, :event, {artist: @name}, force)
     end
 
     def similar(force=false)
-      get_instance("artist.getSimilar", :similar, :artist, {:artist => @name}, force)
+      get_instance("artist.getSimilar", :similar, :artist, {artist: @name}, force)
     end
 
     def top_fans(force=false)
-      get_instance("artist.getTopFans", :top_fans, :user, {:artist => @name}, force)
+      get_instance("artist.getTopFans", :top_fans, :user, {artist: @name}, force)
     end
 
     def top_tracks(force=false)
-      get_instance("artist.getTopTracks", :top_tracks, :track, {:artist => @name}, force)
+      get_instance("artist.getTopTracks", :top_tracks, :track, {artist: @name}, force)
     end
 
     def top_albums(force=false)
-      get_instance("artist.getTopAlbums", :top_albums, :album, {:artist => @name}, force)
+      get_instance("artist.getTopAlbums", :top_albums, :album, {artist: @name}, force)
     end
 
     def top_tags(force=false)
-      get_instance("artist.getTopTags", :top_tags, :tag, {:artist => @name}, force)
+      get_instance("artist.getTopTags", :top_tags, :tag, {artist: @name}, force)
     end
 
     def image(which=:medium)

@@ -4,7 +4,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'rocksta
 # You can find them here : http://www.lastfm.de/api/account
 Rockstar.lastfm = YAML.load_file(File.join(File.dirname(__FILE__), 'lastfm.yml'))
 
-artist = Rockstar::Artist.new('Metallica', :include_info => true)
+artist = Rockstar::Artist.new('Metallica', include_info: true)
 
 puts artist.url
 

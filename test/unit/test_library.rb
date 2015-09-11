@@ -9,8 +9,8 @@ class TestLibrary < Test::Unit::TestCase
   end
 
   test "should be able to get a user's library artists" do
-    assert_equal(50, @library.artists(false, { :user => @user.username }).size)
-    first = @library.artists(false, { :user => @user.username }).first
+    assert_equal(50, @library.artists(false, { user: @user.username }).size)
+    first = @library.artists(false, { user: @user.username }).first
     assert_equal('Taylor Swift', first.name)
     assert_equal('20244d07-534f-4eff-b4d4-930878889970', first.mbid)
     assert_equal('1392', first.playcount)
@@ -33,8 +33,8 @@ class TestLibrary < Test::Unit::TestCase
   end
 
   test "should be able to get a user's library albums" do
-    assert_equal(50, @library.albums(false, { :user => @user.username }).size)
-    first = @library.albums(false, { :user => @user.username }).first
+    assert_equal(50, @library.albums(false, { user: @user.username }).size)
+    first = @library.albums(false, { user: @user.username }).first
     assert_equal('Dwight Yoakam', first.artist)
     assert_equal('0fb711af-c7ba-4bdc-b0b6-b8495fc0a590', first.artist_mbid)
     assert_equal('The Very Best of Dwight Yoakam', first.name)

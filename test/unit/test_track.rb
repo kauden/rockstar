@@ -34,7 +34,7 @@ class TestTrack < Test::Unit::TestCase
   end
 
   test 'should be able to request detailed album info on initialize' do
-    track = Rockstar::Track.new('Carrie Underwood', 'Before He Cheats', :include_info => true)
+    track = Rockstar::Track.new('Carrie Underwood', 'Before He Cheats', include_info: true)
     assert_equal('Carrie Underwood', track.artist)
     assert_equal('http://www.last.fm/music/Carrie+Underwood/_/Before+He+Cheats', track.url)
     assert_equal('1040848', track.playcount)

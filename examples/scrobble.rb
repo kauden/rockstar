@@ -20,13 +20,13 @@ gets
 session = a.session(token)
 
 Rockstar::Track.scrobble(
-  :session_key  => session.key,
-  :track        => "Viva La Vida",
-  :artist       => "Coldplay",
-  :album        => "Viva La Vida",
-  :time         => Time.new,
-  :length       => 244,
-  :track_number => 7
+  session_key: session.key,
+  track: "Viva La Vida",
+  artist: "Coldplay",
+  album: "Viva La Vida",
+  time: Time.new,
+  length: 244,
+  track_number: 7
 )
 
 # Love the Song :
@@ -35,11 +35,11 @@ l_status = Rockstar::Track.new('Coldplay', 'Viva La Vida').love(session.key)
 puts "Love track status : #{l_status}"
 
 Rockstar::Track.updateNowPlaying(
-  :session_key  => session.key,
-  :track        => "Viva La Vida",
-  :artist       => "Coldplay",
-  :album        => "Viva La Vida",
-  :time         => Time.new,
-  :length       => 244,
-  :track_number => 7
+  session_key: session.key,
+  track: "Viva La Vida",
+  artist: "Coldplay",
+  album: "Viva La Vida",
+  time: Time.new,
+  length: 244,
+  track_number: 7
 )

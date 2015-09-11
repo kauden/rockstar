@@ -22,18 +22,18 @@ class TestUser < Test::Unit::TestCase
   end
 
   test 'should be able to load profile while finding' do
-    user = Rockstar::User.find('jnunemaker', :include_profile => true)
+    user = Rockstar::User.find('jnunemaker', include_profile: true)
     assert_equal(@user.username, user.username)
     assert_equal('3017870', user.id)
   end
 
   test 'should be able to load profile while finding multiple users' do
-    users = Rockstar::User.find('jnunemaker', 'oaknd1', 'wharle', :include_profile => true)
+    users = Rockstar::User.find('jnunemaker', 'oaknd1', 'wharle', include_profile: true)
     assert_equal(3, users.size)
   end
 
   test 'should be able to include profile during initialization' do
-    user = Rockstar::User.new('jnunemaker', :include_profile => true)
+    user = Rockstar::User.new('jnunemaker', include_profile: true)
     assert_equal('3017870', user.id)
     assert_equal('http://www.last.fm/user/jnunemaker', user.url)
     assert_equal('John Nunemaker', user.realname)
@@ -73,7 +73,7 @@ class TestUser < Test::Unit::TestCase
   end
 
   test "should be able to get a user's top artists for a period of time" do
-    last_3_month_artists = @user.top_artists( true, :period => "3month" )
+    last_3_month_artists = @user.top_artists( true, period: "3month" )
     assert_equal(50, last_3_month_artists.size)
 
     first = @user.top_artists.first
@@ -159,6 +159,14 @@ class TestUser < Test::Unit::TestCase
     assert_equal('http://www.last.fm/music/Miranda+Lambert/_/Airstream+Song', first.url)
     assert_equal(Time.mktime(2010, 6, 19, 17, 6, 00), first.date)
     assert_equal('1276967182', first.date_uts)
+  end
+
+  test 'should have recent tracks in time range' do
+    recent_tracks = @user.recent_tracks(false, from: '1092587022', to: '1092587040')
+    assert_equal(1, recent_tracks.size)
+    first = recent_tracks.first
+    assert_equal(Time.mktime(2004, 8, 15, 16, 23, 00), first.date)
+    assert_equal('1092587022', first.date_uts)
   end
 
   test 'should have recent loved tracks' do

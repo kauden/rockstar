@@ -6,7 +6,7 @@ Rockstar.lastfm = YAML.load_file(File.join(File.dirname(__FILE__), 'lastfm.yml')
 
 geo = Rockstar::Geo.new
 
-geo.events(:location => 'london').each{|e| p "#{e.title} at #{e.venue.name}"}
+geo.events(location: 'london').each{|e| p "#{e.title} at #{e.venue.name}"}
 
 
 # Get Top Tracks by country of the last week

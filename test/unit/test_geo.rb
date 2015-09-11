@@ -4,7 +4,7 @@ class TestGeo < Test::Unit::TestCase
   
   test "should get events in london" do
     geo = Rockstar::Geo.new
-    events = geo.events({:location => 'london'})
+    events = geo.events({location: 'london'})
   
     assert_equal(10, events.size)
     assert_equal("Basement Scam", events.first.title)

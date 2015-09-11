@@ -78,7 +78,7 @@ module Rockstar
       end
 
       def find(*args)
-        options = {:include_profile => false}
+        options = {include_profile: false}
         options.merge!(args.pop) if args.last.is_a?(Hash)
         users = args.flatten.inject([]) { |users, u| users << User.new(u, options); users }
         users.length == 1 ? users.pop : users
@@ -86,7 +86,7 @@ module Rockstar
     end
 
     def initialize(username, o={})
-      options = {:include_profile => false, :period => 'overall'}.merge(o)
+      options = {include_profile: false, period: 'overall'}.merge(o)
       raise ArgumentError if username.blank?
       @username = username
       @period = options[:period]
@@ -94,7 +94,7 @@ module Rockstar
     end
 
     def load_profile
-      doc                  = self.class.fetch_and_parse("user.getInfo", {:user => @username})
+      doc                  = self.class.fetch_and_parse("user.getInfo", {user: @username})
       @id                  = (doc).at(:id).inner_html
       @url                 = Base.fix_url((doc).at(:url).inner_html)
       @realname            = (doc).at(:realname).inner_html
@@ -115,7 +115,7 @@ module Rockstar
 
     def top_artists(force=false, options = {})
       default_options = {
-        :period => self.period
+        period: self.period
       }
       options = default_options.merge(options)
       options[:user] = @username
@@ -124,61 +124,63 @@ module Rockstar
     end
 
     def top_albums(force=false)
-      get_instance("user.getTopAlbums", :top_albums, :album, {:user => @username}, force)
+      get_instance("user.getTopAlbums", :top_albums, :album, {user: @username}, force)
     end
 
     def top_tracks(force=false)
-      get_instance("user.getTopTracks", :top_tracks, :track, {:user => @username}, force)
+      get_instance("user.getTopTracks", :top_tracks, :track, {user: @username}, force)
     end
 
     def top_tags(force=false)
-      get_instance("user.getTopTags", :top_tags, :tag, {:user => @username}, force)
+      get_instance("user.getTopTags", :top_tags, :tag, {user: @username}, force)
     end
 
     def friends(force=false)
-      get_instance("user.getFriends", :friends, :user, {:user => @username}, force)
+      get_instance("user.getFriends", :friends, :user, {user: @username}, force)
     end
 
     def neighbours(force=false)
-      get_instance("user.getNeighbours", :neighbours, :user, {:user => @username}, force)
+      get_instance("user.getNeighbours", :neighbours, :user, {user: @username}, force)
     end
 
-    def recent_tracks(force=false)
-      get_instance("user.getRecentTracks", :recent_tracks, :track, {:user => @username}, force)
+    def recent_tracks(force=false, options={})
+      options[:user] = @username
+
+      get_instance("user.getRecentTracks", :recent_tracks, :track, options, force)
     end
 
     def recent_loved_tracks(force=false)
-      get_instance("user.getLovedTracks", :recent_loved_tracks, :track, {:user => @username}, force)
+      get_instance("user.getLovedTracks", :recent_loved_tracks, :track, {user: @username}, force)
     end
 
     # The session_key is returned by auth.session.key
     def recommended_artists(session_key, force=false)
-      get_instance("user.getRecommendedArtists", :recommendations, :artist, {:user => @username, :sk => session_key}, force)
+      get_instance("user.getRecommendedArtists", :recommendations, :artist, {user: @username, sk: session_key}, force)
     end
 
     def charts(force=false)
-      get_instance("user.getWeeklyChartList", :charts, :chart, {:user => @username}, force)
+      get_instance("user.getWeeklyChartList", :charts, :chart, {user: @username}, force)
     end
 
     def weekly_artist_chart(from=nil, to=nil)
-      doc = self.class.fetch_and_parse("user.getWeeklyArtistChart", {:user => @username, :from => from, :to => to})
+      doc = self.class.fetch_and_parse("user.getWeeklyArtistChart", {user: @username, from: from, to: to})
       (doc/:artist).inject([]) { |elements, el| elements << Artist.new_from_xml(el); elements }
     end
 
     def weekly_album_chart(from=nil, to=nil)
-      doc = self.class.fetch_and_parse("user.getWeeklyAlbumChart", {:user => @username, :from => from, :to => to})
+      doc = self.class.fetch_and_parse("user.getWeeklyAlbumChart", {user: @username, from: from, to: to})
       (doc/:album).inject([]) { |elements, el| elements << Album.new_from_xml(el); elements }
     end
 
     def weekly_track_chart(from=nil, to=nil)
-      doc = self.class.fetch_and_parse("user.getWeeklyTrackChart", {:user => @username, :from => from, :to => to})
+      doc = self.class.fetch_and_parse("user.getWeeklyTrackChart", {user: @username, from: from, to: to})
       (doc/:track).inject([]) { |elements, el| elements << Track.new_from_xml(el); elements }
     end
 
     # Wrappers for Rockstar::Library
     def artists(force=false, options = {})
       default_options = {
-        :user => @username
+        user: @username
       }
       options = default_options.merge(options)
 
@@ -188,7 +190,7 @@ module Rockstar
 
     def albums(force=false, options = {})
       default_options = {
-        :user => @username
+        user: @username
       }
       options = default_options.merge(options)
 
@@ -198,7 +200,7 @@ module Rockstar
 
     # Get the recommendated events for the user, auth.session.key needed.
     def events(session_key, force = false)
-      get_instance("user.getEvents", :events, :event, {:user => @username, :sk => session_key}, force)
+      get_instance("user.getEvents", :events, :event, {user: @username, sk: session_key}, force)
     end
 
   end

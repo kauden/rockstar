@@ -66,7 +66,7 @@ module Rockstar
       end
 
       def love(artist, track, session_key)
-        doc = Hpricot::XML(Track.connection.post("track.love", true, {:track => track, :artist => artist, :sk => session_key}))
+        doc = Hpricot::XML(Track.connection.post("track.love", true, {track: track, artist: artist, sk: session_key}))
         doc.at("lfm")["status"]
       end
 
@@ -88,7 +88,7 @@ module Rockstar
         end
 
         query = {
-          :sk           => params[:session_key],
+          sk: params[:session_key],
           "track[0]"    => params[:track],
           "timestamp[0]"=> params[:time].utc.to_i,
           "artist[0]"   => params[:artist]
@@ -133,7 +133,7 @@ module Rockstar
         end
 
         query = {
-          :sk        => params[:session_key],
+          sk: params[:session_key],
           "track"    => params[:track],
           "artist"   => params[:artist]
         }
@@ -168,13 +168,13 @@ module Rockstar
       @artist = artist
       @name = name
 
-      options = {:include_info => false}.merge(o)
+      options = {include_info: false}.merge(o)
       load_info if options[:include_info]
     end
 
     def load_info(xml=nil)
       unless xml
-        doc = self.class.fetch_and_parse("track.getInfo", {:artist => @artist, :track => @name})
+        doc = self.class.fetch_and_parse("track.getInfo", {artist: @artist, track: @name})
         xml = (doc / :track).first
       end
 
@@ -214,19 +214,19 @@ module Rockstar
     end
 
     def albums(force=false)
-      get_instance("track.getInfo", :albums, :album, {:track => @name, :artist => @artist}, force)
+      get_instance("track.getInfo", :albums, :album, {track: @name, artist: @artist}, force)
     end
 
     def fans(force=false)
-      get_instance("track.getTopFans", :fans, :user, {:track => @name, :artist => @artist}, force)
+      get_instance("track.getTopFans", :fans, :user, {track: @name, artist: @artist}, force)
     end
 
     def tags(force=false)
-      get_instance("track.getTopTags", :tags, :tag, {:track => @name, :artist => @artist}, force)
+      get_instance("track.getTopTags", :tags, :tag, {track: @name, artist: @artist}, force)
     end
 
     def similar(limit = 10, force = false)
-      get_instance('track.getSimilar', :similar, :track, {:track => @name, :artist => @artist, :limit => limit}, force)
+      get_instance('track.getSimilar', :similar, :track, {track: @name, artist: @artist, limit: limit}, force)
     end
 
     # The session_key is returned by auth.session.key
@@ -239,12 +239,12 @@ module Rockstar
     #   session_key: the session key you got during authentification
     def scrobble(time, session_key)
       Track.scrobble({
-        :session_key => session_key,
-        :time        => time,
-        :track       => @name,
-        :artist      => @artist,
-        :album       => @album,
-        :mbid        => @mbid
+        session_key: session_key,
+        time: time,
+        track: @name,
+        artist: @artist,
+        album: @album,
+        mbid: @mbid
       })
     end
 
@@ -253,12 +253,12 @@ module Rockstar
     #   session_key: the session key you got during authentification
     def updateNowPlaying(time, session_key)
       Track.updateNowPlaying({
-        :session_key => session_key,
-        :time        => time,
-        :track       => @name,
-        :artist      => @artist,
-        :album       => @album,
-        :mbid        => @mbid
+        session_key: session_key,
+        time: time,
+        track: @name,
+        artist: @artist,
+        album: @album,
+        mbid: @mbid
       })
     end
   end

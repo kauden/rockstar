@@ -30,7 +30,7 @@ module Rockstar
       end
 
       def find(name, country = nil, limit = nil, page = nil)
-        get_instance("venue.search", :venues, :venue, {:venue => name, :country => country, :limit => limit, :page => page})
+        get_instance("venue.search", :venues, :venue, {venue: name, country: country, limit: limit, page: page})
       end
     end
 
@@ -51,7 +51,7 @@ module Rockstar
     end
 
     def events
-      @events ||= get_instance("venue.getEvents", :events, :event, {:venue => vid})
+      @events ||= get_instance("venue.getEvents", :events, :event, {venue: vid})
     end
   end
 end

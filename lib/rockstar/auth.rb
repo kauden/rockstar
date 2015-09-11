@@ -25,7 +25,7 @@ module Rockstar
   class Auth < Base
 
     def session(token)
-      doc = self.class.fetch_and_parse("auth.getSession", {:token => token}, true)
+      doc = self.class.fetch_and_parse("auth.getSession", {token: token}, true)
       Rockstar::Session.new_from_xml(doc)
     end
 
